@@ -17,10 +17,15 @@ public class Rect extends Figure {
         Graphics2D g2d = (Graphics2D) g;
         // GradientPaint paint = new GradientPaint(0,0,Color.ORANGE,420,0,Color.CYAN);
         // g2d.setPaint(paint);
-        g2d.setColor(color);
+        g2d.setColor(Color.gray);
+        g2d.fillRect(this.x,this.y, this.w,this.h);
+        g2d.setColor(Color.black);
         g2d.drawRect(this.x,this.y, this.w,this.h);
-        // g2d.fillRect(this.x,this.y, this.w,this.h);
-        // g2d.setPaint(Color.black);
+       
+        if(color==Color.red){
+            g2d.setColor(color);
+            g2d.drawRect(this.x-1, this.y-1, this.w+2, this.h+2);
+        }
 
     }
 }
