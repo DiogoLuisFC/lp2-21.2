@@ -19,9 +19,14 @@ public class Ellipse extends Figure {
         // GradientPaint paint = new GradientPaint(200,100,Color.PINK,100,0,Color.BLUE);
         
         // g2d.setPaint(paint);
-        g2d.setColor(color);
+        g2d.setColor(Color.pink);
+        g2d.fill(new Ellipse2D.Double(this.x,this.y, this.w,this.h));
+        g2d.setColor(Color.black);
         g2d.draw(new Ellipse2D.Double(this.x,this.y, this.w,this.h));
-        // g2d.fill(new Ellipse2D.Double(this.x,this.y, this.w,this.h));
-        // g2d.setPaint(Color.black);
+   
+        if(color==Color.red){
+            g2d.setColor(color);
+            g2d.drawRect(this.x-1, this.y-1, this.w+2, this.h+2);
+        }
     }
 }
