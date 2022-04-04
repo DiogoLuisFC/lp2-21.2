@@ -47,6 +47,10 @@ class ListFrame extends JFrame {
                             fig.color= Color.black;
                         }
                     }
+                     if (focus!= null) {
+                        figs.remove(focus);
+                        figs.add(focus);
+                    }
                     if(focus.focusToRize(click.getX(), click.getY())){
                         r = true;
                     }else{
