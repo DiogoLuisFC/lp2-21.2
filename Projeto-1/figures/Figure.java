@@ -17,9 +17,10 @@ public abstract class Figure {
         this.h = h;
     }
 
-    public void drag (int dx, int dy) {
-        this.x = dx - (this.w/2);
-        this.y = dy - (this.h/2);
+    public void drag (int dx, int dy, int xf, int yf) {
+        
+        this.x = (dx - xf);
+        this.y = (dy - yf) ;
     }
 
     public abstract void paint (Graphics g);
@@ -27,4 +28,22 @@ public abstract class Figure {
     public boolean clicked (int x, int y) {
         return (this.x <= x && (this.x + this.w) >= x && this.y <= y && (this.y + this.h) >= y );       				
     }
+
+    public boolean focusToRize (int x, int y) {
+                
+        // if ( (x == this.x || x == this.x + this.w) && (y >= this.y && y<= (this.y + this.h)) ){
+        //     return 1;
+        // }else if((y == this.y || y == this.y + this.h) && (x >= this.x && x<= (this.x + this.w))){
+        //     return 2;
+        // }else{
+		// return 0;	
+        // }
+       return(x == this.x + this.w && y == this.y + this.h);
+    }
+
+    public void resize (int dx, int dy){
+        this.w = dx - this.x;
+        this.h = dy - this.y;
+    }
+
 }
