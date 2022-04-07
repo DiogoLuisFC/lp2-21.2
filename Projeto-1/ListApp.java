@@ -13,6 +13,16 @@ class ListApp {
     }
 }
 
+class ChangeColorFrame extends JDialog{
+    ChangeColorFrame(int x, int y){
+        this.setResizable(false);
+        this.setModal(true);
+        this.setTitle("Selecionar cor");
+        this.setSize(150, 150);
+        this.setLocation(x+300 ,y-40);
+    }
+}
+
 class ListFrame extends JFrame {
     ArrayList<Figure> figs = new ArrayList<Figure>();
     // Random rand = new Random();
@@ -43,21 +53,28 @@ class ListFrame extends JFrame {
                             xf =click.getX() - fig.x;
                             yf =click.getY() - fig.y;
                             // setCursor(new Cursor(Cursor.MOVE_CURSOR));
+                            
                         }else{
                             fig.color= Color.black;
                         }
+                        repaint();
+
                     }
                      if (focus!= null) {
                         figs.remove(focus);
                         figs.add(focus);
+                        repaint();
+
+                        if(focus.focusToRize(click.getX(), click.getY())){
+                            r = true;
+                        }
+                        else{
+                            r = false;
+                        }
                     }
-                    if(focus.focusToRize(click.getX(), click.getY())){
-                        r = true;
-                    }else{
-                        r = false;
-                    }
+                   
                     // focus.focusToRize(click.getX(), click.getY())!=0
-                    repaint();
+                    
                 }
             }
         );
@@ -80,14 +97,16 @@ class ListFrame extends JFrame {
                 }
                 public void mouseDragged(MouseEvent evt) {
                     if (focus != null && r == false) {    
-                        focus.drag(evt.getX(),evt.getY(),xf,yf);    
+                        focus.drag(evt.getX(),evt.getY(),xf,yf); 
+                        repaint();   
                     }
-                    else{
+                    else if(focus != null ){
                         focus.resize(evt.getX(),evt.getY());
+                        repaint();
                     }
                     // focus.focusToRize(evt.getX(), evt.getY())==0
                     // focus.resize(evt.getX(),evt.getY());
-                    repaint();
+                    
                 }    
             }
             
@@ -143,6 +162,9 @@ class ListFrame extends JFrame {
                             focus = figs.get(i);
                             focus.color= Color.red;
                         }
+                    }else if(evt.getKeyCode() == KeyEvent.VK_C && focus!=null){
+                        ChangeColorFrame ColorFrame = new ChangeColorFrame(focus.x,focus.y+focus.h);
+                        ColorFrame.setVisible(true);
                     }
                     repaint();
 
