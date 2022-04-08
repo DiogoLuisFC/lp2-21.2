@@ -13,7 +13,10 @@ public class Triang extends Figure {
         int[] xPoints = {this.x,this.x+this.w,this.x+(this.w/2)};
         int[] yPoints = {this.y+this.h,this.y+this.h,this.y};
 
-        g2d.setColor(Color.yellow);
+        if(colorBG==null){
+            colorBG = Color.lightGray;
+        }
+        g2d.setColor(colorBG);
         g2d.fillPolygon(xPoints, yPoints, 3);
         g2d.setColor(Color.black);
         g2d.drawPolygon(xPoints, yPoints, 3);
