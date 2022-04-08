@@ -8,6 +8,7 @@ public abstract class Figure {
     public int x, y;
     public int w, h;
     public Color color = Color.black;
+    public Color colorBG;
 
 
     public Figure (int x, int y, int w, int h) {
@@ -38,7 +39,9 @@ public abstract class Figure {
         // }else{
 		// return 0;	
         // }
-       return(x == this.x + this.w && y == this.y + this.h);
+    //    return(x == this.x + this.w && y == this.y + this.h);
+    return(x >= this.x + this.w - 5 && x <= this.x + this.w && y >= this.y + this.h - 5 && y <= this.y + this.h);
+
     }
 
     public void resize (int dx, int dy){
