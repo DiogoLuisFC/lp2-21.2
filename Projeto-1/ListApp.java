@@ -12,14 +12,26 @@ class ListApp {
         frame.setVisible(true);
     }
 }
+// class ButtonColor{
+//     ButtonColor(){
+//         JButton BtnColor = new JButton();
+//         BtnColor.setBounds(100,100,100, 40);    
+//     }
+// }
 
 class ChangeColorFrame extends JDialog{
     ChangeColorFrame(int x, int y){
         this.setResizable(false);
-        this.setModal(true);
+        // this.setModal(true);
         this.setTitle("Selecionar cor");
         this.setSize(150, 150);
         this.setLocation(x+300 ,y-40);
+
+        JButton BtnColor = new JButton("Confirmar");
+        this.setLayout(null);
+        BtnColor.setBounds(10,75,115,25); 
+        this.add(BtnColor);
+       
     }
 }
 
@@ -32,6 +44,9 @@ class ListFrame extends JFrame {
     int xf;
     int yf;
     boolean r = false;
+    Color color;
+    Color tempColor;
+    
 
     ListFrame () {
         this.setFocusTraversalKeysEnabled(false);
@@ -46,17 +61,22 @@ class ListFrame extends JFrame {
             new MouseAdapter(){
                 public void mousePressed(MouseEvent click){
                     focus = null;
+                    int i=0;
         			for(Figure fig: figs) {
                         if (fig.clicked(click.getX(), click.getY())){
+                            if(i>1){
+                                
+                            }
                             focus = fig;
                             fig.color= Color.red;
                             xf =click.getX() - fig.x;
                             yf =click.getY() - fig.y;
                             // setCursor(new Cursor(Cursor.MOVE_CURSOR));
-                            
+                            i=i+1;
                         }else{
                             fig.color= Color.black;
                         }
+                        
                         repaint();
 
                     }
@@ -163,8 +183,16 @@ class ListFrame extends JFrame {
                             focus.color= Color.red;
                         }
                     }else if(evt.getKeyCode() == KeyEvent.VK_C && focus!=null){
-                        ChangeColorFrame ColorFrame = new ChangeColorFrame(focus.x,focus.y+focus.h);
-                        ColorFrame.setVisible(true);
+                        // ChangeColorFrame ColorFrame = new ChangeColorFrame(focus.x,focus.y+focus.h);
+                        // ColorFrame.setVisible(true);
+                        
+                        tempColor = focus.colorBG;
+                        color = JColorChooser.showDialog( ListFrame.this,"Selecione uma cor", focus.colorBG );
+                        if(color==null){
+                            focus.colorBG = tempColor;
+                        }else{
+                            focus.colorBG = color;
+                        }
                     }
                     repaint();
 
