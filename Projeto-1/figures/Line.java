@@ -14,7 +14,10 @@ public class Line extends Figure {
     public void paint (Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.setColor(Color.black);
+        if(colorBG==null){
+            colorBG = Color.black;
+        }
+        g2d.setColor(colorBG);
         g2d.drawLine(this.x, this.y, this.w + this.x, this.h + this.y);
    
         if(color==Color.red){
