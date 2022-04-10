@@ -12,3 +12,5 @@ Clique sobre uma figura e arraste para mudar de posição.
 Para redimensionar uma figura, clique no canto inferior direito da figura em foco e arraste.
 
 Clique sobre a figura que deseja excluir e tecle "del".
+
+Para mudar a cor de fundo de uma figura, tecle "c" após selecioná-la.
