@@ -61,26 +61,23 @@ class ListFrame extends JFrame {
             new MouseAdapter(){
                 public void mousePressed(MouseEvent click){
                     focus = null;
-                    int i=0;
         			for(Figure fig: figs) {
                         if (fig.clicked(click.getX(), click.getY())){
-                            if(i>1){
-                                
-                            }
-                            focus = fig;
-                            fig.color= Color.red;
-                            xf =click.getX() - fig.x;
-                            yf =click.getY() - fig.y;
-                            // setCursor(new Cursor(Cursor.MOVE_CURSOR));
-                            i=i+1;
+                            
+                                focus = fig;
+                                // focus.color= Color.red;
+                                xf =click.getX() - fig.x;
+                                yf =click.getY() - fig.y;
+
                         }else{
                             fig.color= Color.black;
                         }
                         
-                        repaint();
-
                     }
-                     if (focus!= null) {
+                    // repaint();
+                    
+                    if (focus!= null) {
+                        focus.color= Color.red;
                         figs.remove(focus);
                         figs.add(focus);
                         repaint();
@@ -92,9 +89,6 @@ class ListFrame extends JFrame {
                             r = false;
                         }
                     }
-                   
-                    // focus.focusToRize(click.getX(), click.getY())!=0
-                    
                 }
             }
         );
@@ -181,6 +175,9 @@ class ListFrame extends JFrame {
                             focus.color= Color.black;
                             focus = figs.get(i);
                             focus.color= Color.red;
+                            figs.remove(focus);
+                            figs.add(focus);
+                            repaint();
                         }
                     }else if(evt.getKeyCode() == KeyEvent.VK_C && focus!=null){
                         // ChangeColorFrame ColorFrame = new ChangeColorFrame(focus.x,focus.y+focus.h);
