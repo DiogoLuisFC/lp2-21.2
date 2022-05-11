@@ -24,7 +24,7 @@ public abstract class Figure implements IVisible {
         this.y = (dy - yf) ;
     }
 
-    public abstract void paint (Graphics g);//
+    // public abstract void paint (Graphics g);//
 
     public boolean clicked (int x, int y) {
         return (this.x <= x && (this.x + this.w) >= x && this.y <= y && (this.y + this.h) >= y );       				
