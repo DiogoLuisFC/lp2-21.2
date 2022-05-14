@@ -11,7 +11,7 @@ public abstract class Figure implements IVisible {
     public Color colorBG;
 
 
-    public Figure (int x, int y, int w, int h) {
+    protected Figure (int x, int y, int w, int h) {
         this.x = x;
         this.y = y;
         this.w = w;
