@@ -1,14 +1,14 @@
 package figures;
-
-//import java.awt.Graphics;
+import java.io.Serializable;
 import java.awt.Color;
 import ivisible.IVisible;
 
-public abstract class Figure implements IVisible {
+public abstract class Figure implements IVisible, Serializable  {
     public int x, y;
     public int w, h;
-    public Color color = Color.black;
+    // public Color color = Color.black;
     public Color colorBG;
+    public boolean rotate;
 
 
     protected Figure (int x, int y, int w, int h) {
@@ -48,5 +48,10 @@ public abstract class Figure implements IVisible {
         this.w = dx - this.x;
         this.h = dy - this.y;
     }
+    // public void rotate(Graphics g){
+    //     Graphics2D g2d = (Graphics2D) g;
+        
+     
+    // }
 
 }
