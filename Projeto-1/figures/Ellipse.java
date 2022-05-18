@@ -14,7 +14,7 @@ public class Ellipse extends Figure {
             this.w, this.h, this.x, this.y);
     }
 
-    public void paint (Graphics g) {
+    public void paint (Graphics g, boolean focused) {
         Graphics2D g2d = (Graphics2D) g;
         // GradientPaint paint = new GradientPaint(200,100,Color.PINK,100,0,Color.BLUE);
         
@@ -27,8 +27,12 @@ public class Ellipse extends Figure {
         g2d.setColor(Color.black);
         g2d.draw(new Ellipse2D.Double(this.x,this.y, this.w,this.h));
    
-        if(color==Color.red){
-            g2d.setColor(color);
+        // if(color==Color.red){
+        //     g2d.setColor(color);
+        //     g2d.drawRect(this.x-1, this.y-1, this.w+2, this.h+2);
+        // }
+        if(focused){
+            g2d.setColor(Color.red);
             g2d.drawRect(this.x-1, this.y-1, this.w+2, this.h+2);
         }
     }
