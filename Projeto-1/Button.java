@@ -10,7 +10,7 @@ public class Button implements IVisible {
 
 
     public  int    idx;
-    private Figure fig;
+    public Figure fig;
 
     public Button (int idx, Figure fig) {
         this.idx = idx;
