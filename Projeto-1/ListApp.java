@@ -1,7 +1,11 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-
+import java.awt.Cursor;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.image.MemoryImageSource;
 import javax.swing.*;
 import java.util.ArrayList;
 
@@ -41,6 +45,12 @@ class ListFrame extends JFrame {
     ArrayList<Figure> figs = new ArrayList<Figure>();
     ArrayList<Button> buts = new ArrayList<Button>();
 
+    int[] pixels = new int[16 * 16];
+    Image image = Toolkit.getDefaultToolkit().createImage(
+        new MemoryImageSource(16, 16, pixels, 0, 16));
+    Cursor transparentCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+        image, new Point(0, 0), "invisibleCursor");
+
     Figure focus = null;
     Button focus_but = null;
     int x_cursor;
@@ -48,9 +58,12 @@ class ListFrame extends JFrame {
     int xf;
     int yf;
     boolean r = false;
+    boolean duplicate = false;
     Color color;
     Color tempColor;
     boolean f = false;
+    String side = "n";
+    
     
     @SuppressWarnings("unchecked")
     ListFrame () {
@@ -63,6 +76,7 @@ class ListFrame extends JFrame {
         } catch (Exception e) {
             System.out.println("Erro");
         }
+
 
         this.setFocusTraversalKeysEnabled(false);
         buts.add(new Button(0,new Ellipse(0,0,0,0)));
@@ -92,17 +106,14 @@ class ListFrame extends JFrame {
                     f = false;
                     for(Button but: buts) {
                         if (but.clicked(click.getX(), click.getY())){
-                                if(focus_but == but){
-                                    focus_but = null;
-                                    f = false;
-                                }else{
-                                    focus_but = but;
-                                    f = true;  
-                                }
-                            
-                            
-                                                         
-                        }
+                            if(focus_but == but){
+                                focus_but = null;
+                                f = false;
+                            }else{
+                                focus_but = but;
+                                f = true;  
+                            }            
+                        }       
                     }
                     
                     if(focus_but != null && f==false){
@@ -131,35 +142,43 @@ class ListFrame extends JFrame {
                     }    
                     //////////////////////////////////
 
+                    // if(duplicate){
+                        
+                        
+                    //     if (focus) {
+                    //         Rect d = new Rect(click.getX()-focus.w/2, click.getY()-focus.h/2,focus.w,focus.h);
+                    //         d.colorBG = focus.colorBG;
+                        
+                    //     figs.add(d);
+                    //     }
+                       
+                    
+                        
+                    //     focus=null;
+                    //     duplicate=false;
+            
+                    // }
+
                     if (!f) focus = null;
         			for(Figure fig: figs) {
-                        if (fig.clicked(click.getX(), click.getY())){
-                            
-                                focus = fig;
-                                // focus.color= Color.red;
-                                xf =click.getX() - fig.x;
-                                yf =click.getY() - fig.y;
-
+                        if (fig.clicked(click.getX(), click.getY())){                 
+                            focus = fig;
+                            xf =click.getX() - fig.x;
+                            yf =click.getY() - fig.y;
                         }
-                        // else{
-                        //     fig.color= Color.black;
-                        // }
-                        
                     }
                     
                     if (focus!= null) {
-                        // focus.color= Color.red;
+                        // System.out.println(focus.getClass());
                         figs.remove(focus);
                         figs.add(focus);
-                        // repaint();
 
-                        if(focus.focusToRize(click.getX(), click.getY())){
+                        r = false;
+                        if(focus.focusToRize(click.getX(), click.getY()) != "n"){
                             r = true;
                         }
-                        else{
-                            r = false;
-                        }
                     }
+                    
             
                     repaint();
                 }
@@ -170,13 +189,22 @@ class ListFrame extends JFrame {
                 public void mouseMoved(MouseEvent cursor) {
                     x_cursor =cursor.getX();
                     y_cursor=cursor.getY();
+                    
                     if(focus!= null && focus.clicked(x_cursor,y_cursor)){
                         
-                        if(focus.focusToRize(x_cursor,y_cursor)==true){
+                        side = focus.focusToRize(x_cursor,y_cursor);
+                        // System.out.println(side);
+                        if(side=="r" || side=="l"){
+                            setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
+                        }else if(side=="t" || side=="b"){
+                            setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+                        }else if(side=="lt" || side=="rb"){
                             setCursor(new Cursor(Cursor.SE_RESIZE_CURSOR));
+                        }else if(side=="tr" || side=="bl"){
+                            setCursor(new Cursor(Cursor.SW_RESIZE_CURSOR));
                         }else{
                             setCursor(new Cursor(Cursor.MOVE_CURSOR));
-                        }  
+                        }   
 
                     }else{
                         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -184,11 +212,18 @@ class ListFrame extends JFrame {
                 }
                 public void mouseDragged(MouseEvent evt) {
                     if (focus != null && r == false && f==false) {    
+                        
+                        if (evt.getX()< buts.get(3).fig.x+buts.get(3).fig.w+15 && evt.getY()< buts.get(3).fig.y+buts.get(3).fig.h+15){                 
+                            setCursor(transparentCursor);
+                        }else{
+                            setCursor(new Cursor(Cursor.MOVE_CURSOR));
+                        }
                         focus.drag(evt.getX(),evt.getY(),xf,yf); 
-                        repaint();   
+                        repaint(); 
+                        
                     }
                     else if(focus != null && f==false){
-                        focus.resize(evt.getX(),evt.getY());
+                        focus.resize(evt.getX(),evt.getY(), side);
                         repaint();
                     }                  
                 }    
@@ -222,6 +257,9 @@ class ListFrame extends JFrame {
                         focus = l;
                         figs.add(l);                  
                     }
+                    // else if (evt.getKeyChar() == 'd' && focus!=null) {
+                    //     duplicate = true;
+                    // }
                     else if(evt.getKeyCode() == KeyEvent.VK_DELETE){
                         figs.remove(focus);
                         focus = null;
