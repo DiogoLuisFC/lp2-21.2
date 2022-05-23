@@ -92,8 +92,16 @@ class ListFrame extends JFrame {
                     f = false;
                     for(Button but: buts) {
                         if (but.clicked(click.getX(), click.getY())){
-                                focus_but = but;
-                                f = true;                           
+                                if(focus_but == but){
+                                    focus_but = null;
+                                    f = false;
+                                }else{
+                                    focus_but = but;
+                                    f = true;  
+                                }
+                            
+                            
+                                                         
                         }
                     }
                     
